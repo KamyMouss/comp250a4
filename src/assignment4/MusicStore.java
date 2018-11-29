@@ -55,7 +55,11 @@ public class MusicStore {
     		for (HashPair<String,Song> pair: bucket) 
     		{
     			Song song = pair.getValue();
-    			if (song.getArtist().equals(artist)) songs.add(song);
+    			if (song.getArtist().equals(artist)) 
+    			{
+    				System.out.println(song.toString());
+    				songs.add(song);
+    			}
     		}	 
     	}    
     	
@@ -80,7 +84,11 @@ public class MusicStore {
     		for (HashPair<String,Song> pair: bucket) 
     		{
     			Song song = pair.getValue();
-    			if (song.getYear() == year) songs.add(song);		
+    			if (song.getYear() == year) 
+    			{
+    				System.out.println(song.toString());
+    				songs.add(song);		
+    			}
     		} 
     	}    
     	

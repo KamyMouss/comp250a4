@@ -23,7 +23,7 @@ public class HashTableStressTester {
 	if (args.length > 0)
 	    songsDatabaseFilename = args[0];
 	else
-	    songsDatabaseFilename = "songSubset.txt";
+	    songsDatabaseFilename = "resources/songSubset.txt";
 	songs = readSongDataset();
 	
 	testPut(1000);//200 ms

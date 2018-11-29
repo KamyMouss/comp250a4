@@ -98,16 +98,15 @@ public class HashTableTester {
         if(songsByTom.size() != 9){
             errors.append("Failed to retrieve all 9 songs by Tom of sevenstreams\n");
         } 
-        System.out.println(songsByTom.size() + " songs by Tom :");
-        //songsByTom.forEach(song -> System.out.println("\t" + song));
+        System.out.println(songsByTom.size() + " songs by Tom");
         
         ArrayList<Song> songsFrom2002 = store.searchByYear(2002);
         if(songsFrom2002.size() != 4){
             errors.append("Failed to retrieve all 4 songs from 2002\n");
         }
         
-        System.out.println(songsFrom2002.size() + " songs from 2002: ");
-        //songsFrom2002.forEach(song -> System.out.println("\t" + song));
+        System.out.println(songsFrom2002.size() + " songs from 2002");
+       
         
         
         //   PUT MORE TESTS HERE.
