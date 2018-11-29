@@ -235,6 +235,7 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
         @Override
         public HashPair<K,V> next() {
             //ADD YOUR CODE BELOW HERE
+        	// TODO make iterator next() O(1), this is O(n) right now
         	LinkedList<HashPair<K,V>> tmp = bucket;
         	bucket = buckets.get(++index);
         	return tmp.get(0);
