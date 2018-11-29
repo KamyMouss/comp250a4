@@ -60,7 +60,7 @@ public class HashTableTester {
         // Try to retrieve a song
         StringBuffer errors = new StringBuffer();
         Song testSong0 = songTable.get("Scream");
-        //System.out.println(testSong0);
+        System.out.println(testSong0);
         if (testSong0 == null || !testSong0.getArtist().equals("Black Flag") || testSong0.getYear() != 1984) {
             errors.append("Failed to retrieve song 'Scream'.\n");
         }   
@@ -79,7 +79,7 @@ public class HashTableTester {
         
         // Try to retrieve a song
         Song testSong1 = songTable.get("Scream");
-        //System.out.println(testSong1);
+        System.out.println(testSong1);
         if (testSong1 == null || !testSong1.getArtist().equals("Black Flag") || testSong1.getYear() != 1984) {
             errors.append("Failed to retrieve song 'Scream'.\n");
         }
@@ -91,12 +91,6 @@ public class HashTableTester {
             errors.append("Failed to remove song 'Fallen Angel'.\n");
         }
         
-        //try to get keys
-        ArrayList<String> keys = songTable.keys();
-        if (keys.size() != songTable.size()) {
-        	errors.append("Key size = " + keys.size() +"\n");
-        	errors.append("Actual size = " + songTable.size() +"\n");
-        }
         
         //***************** Music Store Basic Checks *****************//
         MusicStore store = new MusicStore(initSongList());
@@ -118,6 +112,19 @@ public class HashTableTester {
         
         //   PUT MORE TESTS HERE.
         
+        //try to get keys
+        ArrayList<String> keys = songTable.keys();
+        if (keys.size() != songTable.size()) {
+        	errors.append("Key size = " + keys.size() +"\n");
+        	errors.append("Actual size = " + songTable.size() +"\n");
+        }
+        
+        //try to get values
+        ArrayList<Song> values = songTable.values();
+        if (values.size() != songTable.size()) {
+        	errors.append("Key size = " + values.size() +"\n");
+        	errors.append("Actual size = " + songTable.size() +"\n");
+        }
         
         // Display the test results
         System.out.println("---------------\nTEST 1 RESULTS:\n---------------\n");
