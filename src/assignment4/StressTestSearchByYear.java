@@ -46,9 +46,9 @@ public class StressTestSearchByYear extends StressTest{
 		HashSet<Song> mySongsInTheYear = new HashSet<>(this.store.searchByYear(queryYear));
 		System.out.println(mySongsInTheYear.size());
 		
-		if(!mySongsInTheYear.equals(searchResults.get(k++))){
+		if(!mySongsInTheYear.equals(searchResults.get(k))){
 		    if(verbose){
-			this.err.println("[FAIL] failed to return all " + searchResults.get(k).size() +" from "+ queryYear);
+			this.err.println("[FAIL] failed to return all " + searchResults.get(k++).size() +" from "+ queryYear);
 			return false;
 		    }
 		}

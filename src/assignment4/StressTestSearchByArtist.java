@@ -47,9 +47,9 @@ public class StressTestSearchByArtist extends StressTest{
 		System.out.println(mySongsByArtist.size());
 		System.out.println(searchResults.get(k).size());
 		
-		if(!mySongsByArtist.equals(searchResults.get(k++))){
+		if(!mySongsByArtist.equals(searchResults.get(k))){
 		    if(verbose){
-			this.err.println("[FAIL] failed to return all " + searchResults.get(k).size() +" songs by "+ queryArtist);
+			this.err.println("[FAIL] failed to return all " + searchResults.get(k++).size() +" songs by "+ queryArtist);
 			return false;
 		    }
 		}
