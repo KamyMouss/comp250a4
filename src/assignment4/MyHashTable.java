@@ -155,7 +155,6 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
     	ArrayList<LinkedList<HashPair<K,V>>> tempBuckets = this.buckets;
     	this.buckets = new ArrayList<LinkedList<HashPair<K,V>>>();
     	
-    	int currBuckets = this.numBuckets;
     	this.numBuckets *= 2;
     	this.numEntries = 0;
     	
@@ -217,7 +216,8 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
 	    			V value = pair.getValue();
 	    			// make sure they are unique
 	    			// TODO make sure this check is needed, i think the values in the table are already unique?
-	    			if (!values.contains(value)) values.add(value);
+	    			//if (!values.contains(value)) values.add(value);
+	    			values.add(value);
 	    	}	 
 	    }    	
 	   	 
@@ -233,27 +233,53 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
     
     
     private class MyHashIterator implements Iterator<HashPair<K,V>> {
-        private int size = buckets.size();
-        private int index = 0;
+        private int bucketsSize;
+        private int arrayIndex;
         
         private MyHashIterator() {
             //ADD YOUR CODE BELOW HERE
-        	// No code needed here lmao
+        	this.bucketsSize = buckets.size();
+        	this.arrayIndex = 0;
+        	
             //ADD YOUR CODE ABOVE HERE
         }
         
         @Override
         public boolean hasNext() {
             //ADD YOUR CODE BELOW HERE
-            return (index < size) && buckets.get(index) != null;
+        	// Check if elements remaining in current bucket, or if theres a next bucket
+        	while (arrayIndex < bucketsSize) {
+        		if (buckets.get(arrayIndex).size() > 0) {
+        			return true;
+        		} else {
+        			arrayIndex++;
+        		}
+        	}
+            return false;
             //ADD YOUR CODE ABOVE HERE
         }
         
         @Override
         public HashPair<K,V> next() {
             //ADD YOUR CODE BELOW HERE
-        	return buckets.get(index++).get(0);
+        	for (HashPair<K,V> pair: buckets.get(arrayIndex++)) 
+	    	{
+	    		return pair;
+	    	}
+        	return null;
+        	
+//        	if (buckets.get(arrayIndex).size() > 0 && bucketIndex < buckets.get(arrayIndex).size())
+//        		return buckets.get(arrayIndex).get(bucketIndex++);
+//        	else {
+//        		bucketIndex = 0;
+//        		while (buckets.get(arrayIndex).size() <= 0 && arrayIndex < bucketsSize) {
+//        			arrayIndex++;
+//        			continue;
+//        		}
+//        		return buckets.get(arrayIndex++).get(bucketIndex);
+//        	}
             //ADD YOUR CODE ABOVE HERE
+			
         }
         
     }

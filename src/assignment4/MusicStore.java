@@ -55,7 +55,7 @@ public class MusicStore {
     		for (HashPair<String,Song> pair: bucket) 
     		{
     			Song song = pair.getValue();
-    			if (song.getArtist().equals(artist)) 
+    			if (song.getArtist().equals(artist) || song.getTitle().contains(artist)) 
     			{
     				System.out.println(song.toString());
     				songs.add(song);
