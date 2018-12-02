@@ -12,3 +12,6 @@ I should be storing the songs with years and artists as keys, but not sure how t
 
 ## values() problem
 I'm not sure if they're unique, needs to be tested. Refer to this https://mycourses2.mcgill.ca/d2l/le/358973/discussions/threads/604473/View
+
+## Add 1 to entries before rehash
+whatever ali said
