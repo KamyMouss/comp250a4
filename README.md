@@ -5,10 +5,6 @@ The search used in the tester doesn't account for the overwritting of values in 
 However, the search used in the tested in the tester finds ALL instances of year or artist, without taking account overwritting.
 ### Possible solution
 I should be storing the songs with years and artists as keys, but not sure how to do this and still make it work with titles.
- 
-
-## Iterator problem (fixed)
-My iterator only goes through all the individual buckets in the map, not all of the hashpairs. I thought i wouldnt need to since bucket already has its own iterator, but apparently we need to. 
 
 ## values() problem
 I'm not sure if they're unique, needs to be tested. Refer to this https://mycourses2.mcgill.ca/d2l/le/358973/discussions/threads/604473/View
