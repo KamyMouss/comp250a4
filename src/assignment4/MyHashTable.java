@@ -207,80 +207,76 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
      */
     public ArrayList<V> values() {
         //ADD CODE BELOW HERE
-    	ArrayList<V> values = new ArrayList<V>();
-
-	   	for (LinkedList<HashPair<K,V>> bucket: this.buckets) 
-	   	{
-	    	for (HashPair<K,V> pair: bucket) 
-	    	{
-	    			V value = pair.getValue();
-	    			// make sure they are unique
-	    			// TODO make sure this check is needed, i think the values in the table are already unique?
-	    			//if (!values.contains(value)) values.add(value);
-	    			values.add(value);
-	    	}	 
-	    }    	
-	   	 
-	   	 return values;
+    	
+    	MyHashTable <V,K> valueHash = new MyHashTable<>(this.numBuckets);
+    	ArrayList<V> values = new ArrayList<>();
+    	
+    	for (HashPair pair : this) {
+    		valueHash.put((V)pair.getValue(), (K)pair.getKey());
+    	}
+    	
+    	for(HashPair pair : valueHash) {
+    		values.add((V)pair.getKey());
+    	}
+    	
+    	return values;
+    	
+//    	ArrayList<V> values = new ArrayList<V>();
+//    	
+//    	
+//	   	for (LinkedList<HashPair<K,V>> bucket: this.buckets) 
+//	   	{
+//	    	for (HashPair<K,V> pair: bucket) 
+//	    	{
+//	    			V value = pair.getValue();
+//	    			// make sure they are unique
+//	    			// TODO make sure this check is needed, i think the values in the table are already unique?
+//	    			if (!values.contains(value)) values.add(value);
+//	    				values.add(value);
+//	    	}	 
+//	    }    	
+//	   	 
+//	   	 return values;
         //ADD CODE ABOVE HERE
     }
     
     
-    @Override
-    public MyHashIterator iterator() {
-        return new MyHashIterator();
-    }
+	    @Override
+	    public MyHashIterator iterator() {
+	    	return new MyHashIterator();
+	    }
+	
+	
+	    private class MyHashIterator implements Iterator<HashPair<K,V>> {
+	    private LinkedList<HashPair<K,V>> pairs;
+	
+	    private MyHashIterator() {
+	    	//ADD YOUR CODE BELOW HERE
+		    pairs = new LinkedList<HashPair<K,V>>();
+		    for(LinkedList<HashPair<K,V>> bucket : buckets){
+			    for(HashPair<K,V> pair : bucket){
+			    	
+			    	this.pairs.add(pair);
+			    }
+		    }
+		    //ADD YOUR CODE ABOVE HERE
+	    }
+	
+	    @Override
+	    public boolean hasNext() {
+		    //ADD YOUR CODE BELOW HERE
+		    return (this.pairs.size() >= 1);
+		    //ADD YOUR CODE ABOVE HERE
+	    }
+	
+	    @Override
+	    public HashPair<K,V> next() {
+		    //ADD YOUR CODE BELOW HERE
+		    return this.pairs.remove();
+		    //ADD YOUR CODE ABOVE HERE
+	    }
+	
+	    }
+	        
     
-    
-    private class MyHashIterator implements Iterator<HashPair<K,V>> {
-        private int bucketsSize;
-        private int arrayIndex;
-        
-        private MyHashIterator() {
-            //ADD YOUR CODE BELOW HERE
-        	this.bucketsSize = buckets.size();
-        	this.arrayIndex = 0;
-        	
-            //ADD YOUR CODE ABOVE HERE
-        }
-        
-        @Override
-        public boolean hasNext() {
-            //ADD YOUR CODE BELOW HERE
-        	// Check if elements remaining in current bucket, or if theres a next bucket
-        	while (arrayIndex < bucketsSize) {
-        		if (buckets.get(arrayIndex).size() > 0) {
-        			return true;
-        		} else {
-        			arrayIndex++;
-        		}
-        	}
-            return false;
-            //ADD YOUR CODE ABOVE HERE
-        }
-        
-        @Override
-        public HashPair<K,V> next() {
-            //ADD YOUR CODE BELOW HERE
-        	for (HashPair<K,V> pair: buckets.get(arrayIndex++)) 
-	    	{
-	    		return pair;
-	    	}
-        	return null;
-        	
-//        	if (buckets.get(arrayIndex).size() > 0 && bucketIndex < buckets.get(arrayIndex).size())
-//        		return buckets.get(arrayIndex).get(bucketIndex++);
-//        	else {
-//        		bucketIndex = 0;
-//        		while (buckets.get(arrayIndex).size() <= 0 && arrayIndex < bucketsSize) {
-//        			arrayIndex++;
-//        			continue;
-//        		}
-//        		return buckets.get(arrayIndex++).get(bucketIndex);
-//        	}
-            //ADD YOUR CODE ABOVE HERE
-			
-        }
-        
-    }
 }

@@ -1,5 +1,6 @@
 package assignment4;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random; 
 /**
@@ -10,6 +11,9 @@ import java.util.Random;
  * VERSION 1.4 Iterator tests for correctness and efficiency implemented
  * VERSION 1.5 Fixed bugs and improved display.
  * VERSION 1.6 Fixed Iterator bugs and improved feedback 
+ * VERSION 1.7 Improved Iterator tester
+ * VERSION 1.8 keys() and values() test added. Fixed minor bugs
+ * VERSION 1.9 values() test fixed bugs. 
  */
 public class HashTableTester {
     
@@ -205,50 +209,240 @@ public class HashTableTester {
     	return null; 
     }
     
+    private static ArrayList<String> getKeysTest(int numOfSongs, boolean display) { 
+    	
+    	Random randInt = new Random(100); // to always get the same sequence
+    	String result = "";
+    	int size = numOfSongs; 
+    	result+= "\n***TEST: getKeys() Stress Test***\n\n"; 
+    	result+= "NOTE: This test tests both correctness and efficiency\n\n"; 
+    	MyHashTable<String,Song> songsTable = new MyHashTable<String,Song>(numOfSongs); // init with max buckets
+    	ArrayList<String> expectedKeys = new ArrayList<String>(numOfSongs); // collect the expected keys
+    	ArrayList<String> obtainedKeys = new ArrayList<String>(); // collect the expected keys
+      	int numOfKeysExpected = numOfSongs; 
+    	int numOfKeysObtained = 0; 
+    	result += "Putting "+ numOfSongs + " songs..."; 
+    	result += "Expected key list created\n"; 
+    	for(int i=0; i < numOfSongs; i++) { 
+    		String title = "Title #" + i;// create title
+    		String author = "Author #" + i; // create author
+    		int randYear = randInt.nextInt((2010-1980)+1)+1980; // year within [1980,2010]   		
+    		Song song = new Song(title,author,randYear); // create song
+    		expectedKeys.add(title); // add the title to the expected keys
+    		songsTable.put(title, song); // put the song
+    		if(display) { 
+    			System.out.println("ADDED: " + song); 
+    		}
+    		numOfKeysExpected ++; 
+    	}
+    	obtainedKeys = songsTable.keys(); 
+    	numOfKeysExpected = obtainedKeys.size(); 
+    	Collections.sort(expectedKeys); 
+    	Collections.sort(obtainedKeys);
+    	if(expectedKeys.size() != obtainedKeys.size()) { 
+    		result += "WARNING: Number of keys doesn't match\n"; 
+    		result += "Number of expected keys: " + expectedKeys.size() + "\n"; 
+    		result += "Number of keys obtained: " + obtainedKeys.size() +  "\n"; 
+    		result += "Correctness failed\n";  
+    	}
+    	else {
+    		result += "Number of expected keys: " + expectedKeys.size() + "\n"; 
+    		result += "Number of keys obtained: " + obtainedKeys.size()  + "\n"; 
+    		result += "Number of keys are equal\n";  
+    	}
+    	if(!expectedKeys.equals(obtainedKeys)) { 
+    		result += "WARNING: Obtained doesn't match\n"; 
+    		if(display) {  
+    			result += "Expected Keys: \n";  
+    			for(String key: expectedKeys) {
+    				result += key + "\n"; 
+    			}
+        		result += "Obtained Keys: \n"; 
+        		for(String key: obtainedKeys) {
+    				result += key + "\n"; 
+    			}
+    		}
+    		result += "Correctness failed\n";  
+    	}
+    	else { 
+    		if(display) {  
+    			result += "Expected Keys: \n"; 
+    			for(String key: expectedKeys) {
+    				result += key + "\n"; 
+    			}
+        		result += "Obtained Keys: \n"; 
+        		for(String key: expectedKeys) {
+    				result += key + "\n"; 
+    			}
+    		}
+    		result += "Correctness passed\n"; 
+    	}
+    	
+    	//***values test***
+    	
+ 
+    	
+    	
+    	System.out.println(result);
+    	
+    	return null; 
+    }
+    
+    private static void getValuesTest(int numOfSongs, boolean display) { 
+    	
+    	Random randInt = new Random(100); // to always get the same sequence
+    	String result = ""; 
+    	result += "\n***TEST: getValues() Stress Test***\n\n";
+    	MyHashTable<String,Song> songsTable = new MyHashTable<String,Song>(numOfSongs); // init with max buckets
+     	ArrayList<Song> expectedSongs = new ArrayList<Song>();
+    	ArrayList<Song> obtainedSongs = new ArrayList<Song>();
+    	result += "Creating table with " + numOfSongs + " songs...\n"; 
+    	result += "Note that repeated values will be put into the HashMap\n"; 
+     	for(int i=0; i < numOfSongs; i++) { 
+    		String title = "Title #" + i;// create title
+    		String author = "Author #" + i; // create author
+    		String author2 = "Author #" + i; // create author
+    		String author3 = "Author #" + i; // create author
+    		int randYear = randInt.nextInt((2010-1980)+1)+1980; // year within [1980,2010]   
+    		Song song = new Song(title,author,randYear); // create song
+    		Song song1 = new Song(title,author2,randYear); // create song
+    		Song song2 = new Song(title,author3,randYear); // create song
+
+    		expectedSongs.add(song); // add the song to expected songs
+    		songsTable.put(title, song); // put the song
+    		songsTable.put(title, song); // put the song
+    		songsTable.put(title, song); // put the song
+    		songsTable.put(title, song1); // put the song
+    		songsTable.put(title, song1); // put the song
+    		songsTable.put(title, song1); // put the songsongsTable.put(title, song); // put the song
+    		songsTable.put(title, song2); // put the song
+    		songsTable.put(title, song2); // put the song
+    		songsTable.put(title, song2); // put the song
+    		
+    		if(display) { 
+    			result += "ADDED: " + song + "\n";  
+    			result += "ADDED: " + song1 + "\n"; 
+    			result += "ADDED: " + song2 + "\n";  
+
+    		}
+    	}
+     	obtainedSongs = songsTable.values();
+        result += "table size: " +  songsTable.size() + "\n";
+        result += "obtainedSongs values size: " + obtainedSongs.size() + "\n"; 
+        result += "Expected size: " + numOfSongs + "\n"; 
+        result += "Comparing equality of values....\n"; 
+        boolean equal = true; 
+        ArrayList<String> expectedTitles = new ArrayList<String>(); 
+        ArrayList<String> obtainedTitles = new ArrayList<String>();
+        ArrayList<String> expectedArtists = new ArrayList<String>(); 
+        ArrayList<String> obtainedArtists = new ArrayList<String>();
+        ArrayList<Integer> expectedYears = new ArrayList<Integer>(); 
+        ArrayList<Integer> obtainedYears = new ArrayList<Integer>();
+        try { 
+        	for(int i=0; i < numOfSongs; i++) { 
+        		expectedTitles.add(expectedSongs.get(i).getTitle()); 
+        		obtainedTitles.add(obtainedSongs.get(i).getTitle()); 
+        		expectedArtists.add(expectedSongs.get(i).getArtist());
+        		obtainedArtists.add(obtainedSongs.get(i).getArtist()); 
+        		expectedYears.add(expectedSongs.get(i).getYear());
+        		obtainedYears.add(obtainedSongs.get(i).getYear()); 
+        	}
+        	// order the titles to get the same songs
+        	Collections.sort(expectedTitles); 
+        	Collections.sort(obtainedTitles);
+        	Collections.sort(expectedArtists); 
+        	Collections.sort(obtainedArtists);
+        	Collections.sort(expectedYears); 
+        	Collections.sort(obtainedYears);
+        	for(int i=0; i < numOfSongs; i++) {
+        		if(display) { 
+               		result += "Expected song:" + songsTable.get(expectedTitles.get(i)) + "\n"; 
+            		result += "Obtained song:" + songsTable.get(obtainedTitles.get(i)) + "\n"; 
+        		}
+              	boolean sameTitle = expectedTitles.get(i).equals(obtainedTitles.get(i)); 
+              	boolean sameArtist = expectedArtists.get(i).equals(obtainedArtists.get(i));
+              	boolean sameYear = expectedYears.get(i).equals(obtainedYears.get(i)); 
+              	if(!(sameTitle && sameArtist && sameYear)) {  
+              		equal = false; 
+              	}
+              	
+              }
+        } catch (NullPointerException e) { 
+        	result += "WARNING: Table size not equal\n"; 
+        	result += e; 
+        	if(display) {  
+        		result += e.getMessage(); 
+            	result += e.getStackTrace(); 
+        	}
+        	result += "Test failed"; 
+        }
+        
+        if(equal) { 
+        	result += "Equality test passed"; 
+        }
+        System.out.println(result);
+    }
+    
+    
  
     /**
      * Validates the functionality of the iterator in the MyHashTable class
      * @param songTable
      * @return
      */
-    private static String iteratorStressTest(MyHashTable<String, Song> songTable) { 
+    private static String iteratorStressTest(MyHashTable<String, Song> songTable, boolean display) { 
     	
     	String result = ""; 
-    	
-    	System.out.println("SIZE: " + songTable.size());
+    	Song song = null; 
+    	int size = songTable.size(); 
     	
     	result+= "\n***TEST: Iterator Stress Test***\n\n"; 
     	result+= "NOTE: This test tests both correctness and efficiency\n\n"; 
     			
-    	result += "Creating song list (n = 10000000)...\n";
-    	result += "initalizing songTable (n = 10000000)...\n"; 
+    	result += "Creating song list (n = " + size + ")...\n";
+    	result += "initalizing songTable (n = " + size +  ")...\n"; 
     	result += "Initializing Iterator O(n)...\n"; 
     	Iterator<HashPair<String,Song>> iter1 = songTable.iterator(); // create iterator
-    	result+= "Passed\n"; 
     	int count = 0; 
     	result += "Iterating through the songTable n*O(1)...\n"; 
        	try {
     	   	while(iter1.hasNext()) { // tests the hasNext function
+        		song = iter1.next().getValue(); 
         		count++; 
-        		iter1.next(); 
+        		if(display) { 
+        			result += song + "\n"; 
+        		}
         	}
     	}catch( Exception e) { 
+    		System.out.println("ERROR WAS CATCHED");
+    		e.printStackTrace();
     		System.out.println(e.getLocalizedMessage());
     		System.out.println(e.getCause());
-    		e.printStackTrace();
     	}
-    	result += "Passed\n" ; 
+       	try { 
+//       		iter1.next(); // this generates the intentional error
+       	}
+       	catch(Exception e) {     
+       		result += "\nEXPECTED ERROR CATCHED: \n"; 
+       		result += "This error was intended to happen\n";
+       		result += e + "\n\n";
+    		
+//    		if(display) { 
+//        		e.printStackTrace();
+//    		}
+    		
+       	}
     	if(count != songTable.size()) { 
     		result += "WARNING: iterator did not go over all the elements in the table\n"; 
     		result += "Elements in table: " + songTable.size() ; 
-    		result += "\nElements iterated: " + count; 
-    		result += "\nCorrectness failed"; 
+    		result += "Elements iterated: " + count; 
+    		result += "Correctness failed"; 
     	}
     	else { 
-    		result += "Iterator sucessfully went over all the elements in the table\n"; 
+        	result += "hasNext() and next() tests passed\n" ;     		result += "Iterator sucessfully went over all the elements in the table\n"; 
     		result += "Elements in table: " + songTable.size() + "\n" ; 
     		result += "Elements iterated: " + count + "\n"; 
-    		result += "Correctness passed\n "; 
+    		result += "Correctness passed\n"; 
     		result += "Efficiency passed "; 
     	}
     	
@@ -283,14 +477,15 @@ public class HashTableTester {
         // Initialize the hash table.   Key will be the song title.
         
         songTable = new MyHashTable<String,Song>(numBuckets);
+        System.out.println("New MyHashtable created.....");
+        System.out.println("Putting basic songs...\n");
         for (Song song: songs) {
             songTable.put(song.getTitle(), song);
         }
         
-        System.out.println("New MyHashtable created.....");
         System.out.println("Number of songs in the table: " + songTable.size());
         System.out.println("Number of buckets in the table: " + songTable.numBuckets());
-        System.out.println("songTable" + songTable.toString());
+        System.out.println("songTable: " + songTable.toString());
         
         
         // Try to retrieve a song
@@ -374,11 +569,11 @@ public class HashTableTester {
         
         ArrayList<Song> songsFrom2002 = store.searchByYear(2002);
         if(songsFrom2002.size() != 4){
-        	errors.append("\n***TEST: 9 Songs retrieval:***\n"); 
+        	errors.append("\n***TEST: 4 Songs retrieval:***\n"); 
             errors.append("Failed to retrieve all 4 songs from 2002\n");
         }
         else { 
-        	passed.append("\n***TEST: 9 Songs retrieval:***\n"); 
+        	passed.append("\n***TEST: 4 Songs retrieval:***\n"); 
         	passed.append("All 4 songs from 2002 successfully retrieved\n");
         }
         
@@ -387,23 +582,6 @@ public class HashTableTester {
         
         
         //   PUT MORE TESTS HERE.
-      //try to get keys
-        ArrayList<String> keys = songTable.keys();
-        if (keys.size() != songTable.size()) {
-        	errors.append("Key size = " + keys.size() +"\n");
-        	errors.append("Actual size = " + songTable.size() +"\n");
-        } else {
-        	passed.append("Passed Keys test\n");
-        }
-        
-        //try to get values
-        ArrayList<Song> values = songTable.values();
-        if (values.size() != songTable.size()) {
-        	errors.append("Key size = " + values.size() +"\n");
-        	errors.append("Actual size = " + songTable.size() +"\n");
-        } else {
-        	passed.append("Passed values test\n");
-        }
         
         // Display the test results
         System.out.println("\n---------------\nTEST 1: CORRECTNESS RESULTS:\n---------------\n");
@@ -439,6 +617,7 @@ public class HashTableTester {
     	getStressTest(songsTable5,false); 
     	getStressTest(songsTable6,false); 
     	getStressTest(songsTable7,false); 
+    	System.out.println();
     	
     	System.out.println("***TEST: remove() Stress Test O(1)***\n");
     	removeStressTest(songsTable,false); 
@@ -447,10 +626,14 @@ public class HashTableTester {
     	removeStressTest(songsTable4,false); 
     	removeStressTest(songsTable5,false); 
     	removeStressTest(songsTable6,false); 
-    	removeStressTest(songsTable7,false);     	
+    	removeStressTest(songsTable7,false);     
     	
-    	songsTable = multiSongList(100,false); 
-        System.out.println(iteratorStressTest(songsTable));
+    	getKeysTest(1000000,false); 
+    	getValuesTest(1000000,false); 
+    	
+    	songsTable = multiSongList(3,false); 
+        System.out.println(iteratorStressTest(songsTable,true));
+        
     
     }
 

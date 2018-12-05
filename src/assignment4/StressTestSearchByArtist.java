@@ -44,8 +44,8 @@ public class StressTestSearchByArtist extends StressTest{
 	    int k = 0;
 	    for (String queryArtist: searchQueries){
 		HashSet<Song> mySongsByArtist = new HashSet<>(this.store.searchByArtist(queryArtist));
-		System.out.println(mySongsByArtist.size());
-		System.out.println(searchResults.get(k).size());
+//		System.out.println(mySongsByArtist.size());
+//		System.out.println(searchResults.get(k).size());
 		
 		if(!mySongsByArtist.equals(searchResults.get(k++))){
 		    if(verbose){
