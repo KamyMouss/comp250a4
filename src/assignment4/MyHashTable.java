@@ -211,12 +211,20 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
     	MyHashTable <V,K> valueHash = new MyHashTable<>(this.numBuckets);
     	ArrayList<V> values = new ArrayList<>();
     	
-    	for (HashPair pair : this) {
+	   	for (LinkedList<HashPair<K,V>> bucket: this.buckets) 
+	   	{
+    		for (HashPair<K,V> pair: bucket) 
+    		{
     		valueHash.put((V)pair.getValue(), (K)pair.getKey());
+    		}
     	}
     	
-    	for(HashPair pair : valueHash) {
+	   	for (LinkedList<HashPair<V, K>> bucket: valueHash.getBuckets()) 
+	   	{
+    		for (HashPair<V, K> pair: bucket) 
+    		{
     		values.add((V)pair.getKey());
+    		}
     	}
     	
     	return values;
@@ -248,14 +256,15 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
 	
 	
 	    private class MyHashIterator implements Iterator<HashPair<K,V>> {
-	    private LinkedList<HashPair<K,V>> pairs;
+	    	private LinkedList<HashPair<K,V>> pairs;
 	
 	    private MyHashIterator() {
 	    	//ADD YOUR CODE BELOW HERE
 		    pairs = new LinkedList<HashPair<K,V>>();
-		    for(LinkedList<HashPair<K,V>> bucket : buckets){
-			    for(HashPair<K,V> pair : bucket){
-			    	
+		    for(LinkedList<HashPair<K,V>> bucket : buckets)
+		    {
+			    for(HashPair<K,V> pair : bucket)
+			    {
 			    	this.pairs.add(pair);
 			    }
 		    }
