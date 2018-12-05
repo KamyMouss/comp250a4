@@ -79,6 +79,10 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
     		}
     	}
     	
+    	// Key is new, add it to bucket
+    	bucket.add(new HashPair<K, V>(key,value));
+    	this.numEntries++;
+    	
     	// rehash if load factor exceeded
     	double currLoadFactor = (double)this.numEntries / (double) this.numBuckets;
     	if (currLoadFactor > this.MAX_LOAD_FACTOR ) 
@@ -86,13 +90,9 @@ public class MyHashTable<K,V> implements Iterable<HashPair<K,V>>{
     		//System.out.println(currLoadFactor + " rehashed " + this.MAX_LOAD_FACTOR);
     		this.rehash();      	
     		compressedHash = Math.abs(key.hashCode()) % numBuckets;
-            bucket = buckets.get(compressedHash);
     	}
 
-    	
-    	// Key is new, add it to bucket
-    	bucket.add(new HashPair<K, V>(key,value));
-    	this.numEntries++;
+
     	
         return null;
         //  ADD YOUR CODE ABOVE HERE

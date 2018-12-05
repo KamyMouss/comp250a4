@@ -45,6 +45,7 @@ public class StressTestSearchByYear extends StressTest{
 	    for (Integer queryYear: searchQueries){
 		HashSet<Song> mySongsInTheYear = new HashSet<>(this.store.searchByYear(queryYear));
 		System.out.println(mySongsInTheYear.size());
+		System.out.println(searchResults.get(k).size());
 		
 		if(!mySongsInTheYear.equals(searchResults.get(k++))){
 		    if(verbose){

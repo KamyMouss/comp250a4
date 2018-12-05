@@ -5,16 +5,29 @@ import java.util.LinkedList;
 
 public class MusicStore {
     //ADD YOUR CODE BELOW HERE
-	MyHashTable<String,Song> songTable;
+	MyHashTable<String,ArrayList<Song>> titleTable;
+	MyHashTable<Integer,ArrayList<Song>> yearTable;
+	MyHashTable<String,ArrayList<Song>> artistTable;
     //ADD YOUR CODE ABOVE HERE
     
     
     public MusicStore(ArrayList<Song> songs) {
         //ADD YOUR CODE BELOW HERE
+    	
     	int numBuckets = 7;
-    	songTable = new MyHashTable<String,Song>(numBuckets);
+    	
+    	titleTable = new MyHashTable<String,ArrayList<Song>>(numBuckets);
+    	yearTable = new MyHashTable<Integer,ArrayList<Song>>(numBuckets);
+    	artistTable = new MyHashTable<String,ArrayList<Song>>(numBuckets);
+    	
         for (Song song: songs) {
-            songTable.put(song.getTitle(), song);
+        	titleTable.put(song.getTitle(), new ArrayList<Song>());
+        	yearTable.put(song.getYear(), new ArrayList<Song>());
+        	artistTable.put(song.getArtist(), new ArrayList<Song>());
+        }
+        
+        for(Song song: songs){
+            this.addSong(song);
         }
         //ADD YOUR CODE ABOVE HERE
     }
@@ -25,7 +38,9 @@ public class MusicStore {
      */
     public void addSong(Song s) {
         // ADD CODE BELOW HERE
-        songTable.put(s.getTitle(), s);
+    	titleTable.get(s.getTitle()).add(s);
+    	yearTable.get(s.getYear()).add(s);
+    	artistTable.get(s.getArtist()).add(s);	
         // ADD CODE ABOVE HERE
     }
     
@@ -35,7 +50,7 @@ public class MusicStore {
      */
     public Song searchByTitle(String title) {
         //ADD CODE BELOW HERE
-       return songTable.get(title);       
+    	return titleTable.get(title).get(0); 
         //ADD CODE ABOVE HERE
     }
     
@@ -44,27 +59,8 @@ public class MusicStore {
      * ArrayList of all such Songs.
      */
     public ArrayList<Song> searchByArtist(String artist) {
-        //ADD CODE BELOW HERE
-    	
-    	ArrayList<Song> songs = new ArrayList<Song>();
-    	
-    	ArrayList<LinkedList<HashPair<String,Song>>> buckets = this.songTable.getBuckets();
-    	
-    	for (LinkedList<HashPair<String,Song>> bucket: buckets) 
-    	{
-    		for (HashPair<String,Song> pair: bucket) 
-    		{
-    			Song song = pair.getValue();
-    			if (song.getArtist().equals(artist) || song.getTitle().contains(artist)) 
-    			{
-    				System.out.println(song.toString());
-    				songs.add(song);
-    			}
-    		}	 
-    	}    
-    	
-        return songs;
-        
+        //ADD CODE BELOW HERE 	
+    	return artistTable.get(artist);
         //ADD CODE ABOVE HERE
     }
     
@@ -73,27 +69,8 @@ public class MusicStore {
      *  and return an ArrayList of all such  Songs  
      */
     public ArrayList<Song> searchByYear(Integer year) {
-        //ADD CODE BELOW HERE
-    	
-    	ArrayList<Song> songs = new ArrayList<Song>();
-    	
-    	ArrayList<LinkedList<HashPair<String,Song>>> buckets = this.songTable.getBuckets();
-    	
-    	for (LinkedList<HashPair<String,Song>> bucket: buckets) 
-    	{	
-    		for (HashPair<String,Song> pair: bucket) 
-    		{
-    			Song song = pair.getValue();
-    			if (song.getYear() == year) 
-    			{
-    				System.out.println(song.toString());
-    				songs.add(song);		
-    			}
-    		} 
-    	}    
-    	
-        return songs;
-        
+        //ADD CODE BELOW HERE   	
+    	return yearTable.get(year);     
         //ADD CODE ABOVE HERE
         
     }
